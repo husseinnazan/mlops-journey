@@ -19,4 +19,5 @@ Learning log for my path to MLOps engineering.
 
 ## Log
 **2026-08-06** — Set up environment (Git, VS Code, Python). Started SQL.
+
 **2026-08-06** — Learned SQL/relational databases (SELECT, joins, aggregates, subqueries, PK/FK, many-to-many junction tables) via DBeaver, following `databases-sql-relational-databases.md`.
