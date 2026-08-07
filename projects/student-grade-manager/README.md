@@ -20,21 +20,21 @@ This was my first full project (P1) in my self-study roadmap. It started as a pu
 
 ## How to run
 
-\`\`\`bash
+```bash
 python cli-app.py
-\`\`\`
+```
 
 The database file (`students.db`) is created automatically the first time you run it — no setup needed.
 
 ## Database schema
 
-\`\`\`sql
+```sql
 CREATE TABLE students (
     id    INTEGER PRIMARY KEY,
     name  TEXT NOT NULL,
     score INTEGER NOT NULL
 );
-\`\`\`
+```
 
 ## What I learned building this
 
