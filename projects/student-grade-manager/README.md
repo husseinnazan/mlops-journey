@@ -48,4 +48,5 @@ create table students (
 - `fetchone()` vs `fetchall()`, and when each applies
 - Using SQL aggregate functions (`MIN`, `MAX`, `AVG`) instead of computing stats manually in Python
 - `NULL` in SQL becomes `None` in Python, and why that matters for edge cases like stats on an empty table
-- Separating data logic from application logic — `db.py` returns data, `main.py` decides how to display it. This is the same shape a FastAPI backend uses later: one function per action, a router deciding which one runs.
+- Separating data logic from application logic — `db.py` returns data, `main.py` decides how to display it
+- Resolving a real git merge conflict — two divergent histories of the same file, reconciled by hand
