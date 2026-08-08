@@ -12,7 +12,7 @@ Learning log for my path to MLOps engineering.
 ## Current focus
 - [x] SQL fundamentals
 - [ ] Linux & Bash
-- [ ] Git
+- [x] Git
 - [ ] FastAPI + SQLite backend
 - [ ] Docker
 - [ ] Deploy something live
@@ -26,3 +26,4 @@ Learning log for my path to MLOps engineering.
 **2026-08-06** — Learned SQL/relational databases (SELECT, joins, aggregates, subqueries, PK/FK, many-to-many junction tables) via DBeaver.
 **2026-08-07** — Converted Student Grade Manager CLI from in-memory storage to SQLite. All 5 menu options now backed by real queries (INSERT, SELECT, aggregates, WHERE filtering).
 **2026-08-08** — Refactored Student Grade Manager into db.py (data layer, returns data) and main.py (application layer, handles input/display). Kept the original cli-app.py for comparison.
+**2026-08-08** — Watched Git & GitHub crash course (branching, merging, conflicts, stash, revert, rebase, PRs). Added `notebooks/git/git-github-fundamentals.md`.
