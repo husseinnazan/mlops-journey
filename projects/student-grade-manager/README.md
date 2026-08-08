@@ -2,7 +2,12 @@
 
 A command-line tool to manage student records — add students, view stats, search, and filter — backed by a real SQLite database.
 
-This was my first full project (P1) in my self-study roadmap. It started as a pure Python CLI storing data in memory, then was rebuilt to persist data with SQLite as part of learning databases and SQL.
+This was my first full project (P1) in my self-study roadmap. It went through three stages: a pure Python CLI storing data in memory, then rebuilt with SQLite for persistence, then refactored into a proper data layer / application layer split.
+
+## Project structure
+
+- `db.py` — the data layer. Owns the database connection and every SQL query. Returns data, never prints anything.
+- `main.py` — the application layer. Owns the menu, `input()`, and every `print()`. Calls into `db.py`, never writes SQL directly.
 
 ## Features
 
@@ -20,21 +25,21 @@ This was my first full project (P1) in my self-study roadmap. It started as a pu
 
 ## How to run
 
-\`\`\`bash
-python cli-app.py
-\`\`\`
+```bash
+python main.py
+```
 
 The database file (`students.db`) is created automatically the first time you run it — no setup needed.
 
 ## Database schema
 
-\`\`\`sql
-CREATE TABLE students (
-    id    INTEGER PRIMARY KEY,
-    name  TEXT NOT NULL,
-    score INTEGER NOT NULL
+```sql
+create table students (
+    id    integer primary key,
+    name  text not null,
+    score integer not null
 );
-\`\`\`
+```
 
 ## What I learned building this
 
@@ -43,3 +48,4 @@ CREATE TABLE students (
 - `fetchone()` vs `fetchall()`, and when each applies
 - Using SQL aggregate functions (`MIN`, `MAX`, `AVG`) instead of computing stats manually in Python
 - `NULL` in SQL becomes `None` in Python, and why that matters for edge cases like stats on an empty table
+- Separating data logic from application logic — `db.py` returns data, `main.py` decides how to display it. This is the same shape a FastAPI backend uses later: one function per action, a router deciding which one runs.
