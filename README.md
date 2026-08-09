@@ -11,8 +11,10 @@ Learning log for my path to MLOps engineering.
 
 ## Phase 1 — Backend foundations
 
-- [x] Git & GitHub
-- [ ] Bash
+- [x] Python fundamentals — syntax, functions (`notebooks/python/`)
+- [x] SQL & relational databases (`notebooks/sql/`)
+- [x] Git & GitHub (`notebooks/git/`)
+- [ ] Bash (`notebooks/bash/`)
 - [ ] SQL window functions
 - [ ] OOP
 - [ ] Type hints
@@ -31,7 +33,7 @@ Learning log for my path to MLOps engineering.
 
 ## Log
 - **2026-08-06** — Set up environment (Git, VS Code, Python). Started SQL.
-- **2026-08-06** — Learned SQL/relational databases (SELECT, joins, aggregates, subqueries, PK/FK, many-to-many junction tables) via DBeaver.
+- **2026-08-06** — Learned SQL/relational databases (SELECT, joins, aggregates, subqueries, PK/FK, many-to-many junction tables) via DBeaver. Added `notebooks/sql/`.
 - **2026-08-07** — Converted Student Grade Manager CLI from in-memory storage to SQLite. All 5 menu options now backed by real queries (INSERT, SELECT, aggregates, WHERE filtering).
 - **2026-08-08** — Refactored Student Grade Manager into db.py (data layer, returns data) and main.py (application layer, handles input/display). Kept the original cli-app.py for comparison.
 - **2026-08-08** — Watched Git & GitHub crash course (branching, merging, conflicts, stash, revert, rebase, PRs). Added `notebooks/git/git-github-fundamentals.md`.
