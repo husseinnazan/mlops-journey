@@ -1,8 +1,8 @@
 # 🐚 Bash — Notebook
 
-> scripts · variables · arguments · conditionals · loops · exit codes · redirection · pipes
+> scripts · variables · arguments · conditionals · loops · exit codes · redirection · pipes · case branching · calling external programs
 
-Everything below was written and run at the terminal on August 9, 2026. This is not a Bash mastery notebook — it's the working subset needed to *read* a Dockerfile, a GitHub Actions step, and an AWS startup script in Phase 2 without guessing.
+Everything below was written and run at the terminal on August 9, 2026. Sections 1–8 came from first contact with Bash; sections 9–10 came from building a working `add`/`list`/`remove` todo app backed by SQLite the same day. This is not a Bash mastery notebook — it's the working subset needed to *read* a Dockerfile, a GitHub Actions step, and an AWS startup script in Phase 2 without guessing.
 
 ---
 
@@ -231,6 +231,79 @@ This is the Unix idea in one character. Small programs that each do one thing, c
 ```bash
 cat app.log | grep "ERROR" | wc -l
 ```
+
+---
+
+## 9. `case` — branching on more than two paths
+
+`if`/`else` picks between two paths. `case` picks between *many*, based on what one variable actually equals — built for exactly the situation `$1` is in when it's meant to be a command name (`add`, `list`, `remove`, ...).
+
+```bash
+case "$1" in
+    add)
+        echo "you want to add"
+        ;;
+    list)
+        echo "you want to list"
+        ;;
+    remove)
+        echo "you want to remove"
+        ;;
+    *)
+        echo "unknown"
+        ;;
+esac
+```
+
+```bash
+bash todo.sh add     # → you want to add
+bash todo.sh xyz     # → unknown
+```
+
+Reading the pieces:
+
+- `case "$1" in` — look at `$1`, decide what follows based on its value
+- `add)` — if `$1` equals the word `add`, run what's below it
+- `;;` — stop here, don't check any more branches (does the job `break` does elsewhere)
+- `*)` — catches anything that matched nothing above, the `case` equivalent of `else`
+- `esac` — closes the whole block, same backwards-spelling trick as `fi` and `done`
+
+---
+
+## 10. Calling an external program from a script
+
+Bash doesn't know SQL, or any other language — it just runs other programs and hands them text. `sqlite3` is a program exactly like `ls` or `grep`; the only difference is what you feed it:
+
+```bash
+DB_PATH="$HOME/.config/todo-app/db.sqlite"
+
+sqlite3 "$DB_PATH" "create table if not exists tasks (
+    id integer primary key autoincrement,
+    task text not null
+)"
+```
+
+Shape: `sqlite3`, then the database file, then a SQL string in quotes. `sqlite3` opens the file (creating it if it doesn't exist yet — the folder still has to exist first, see below), runs the SQL, and exits. Nothing bash-specific is happening inside the quotes; it's just a string being handed to another program, same as `grep "pattern" file.txt` hands `grep` a pattern.
+
+**The quoting question this raises: when does a variable need `'quotes'` inside the SQL, and when doesn't it?**
+
+```bash
+sqlite3 "$DB_PATH" "insert into tasks (task) values ('$2')"
+#                                             ^^^^   text needs quotes — it's a string
+
+sqlite3 "$DB_PATH" "delete from tasks where id = $2"
+#                                             no quotes — it's a number
+```
+
+Same rule as SQL anywhere: strings get quoted, numbers don't. `'$2'` inside the SQL string means *first let bash substitute `$2`'s value in, then wrap the result in SQL's own single quotes* — so if `$2` is `buy milk`, the final string sqlite3 receives is `values ('buy milk')`. For a numeric comparison like `id = $2`, wrapping it in quotes would make SQLite compare `id` to the *text* `"3"` instead of the number `3` — usually still works by coincidence, but it's the wrong type, and it's what actually causes bugs once real data gets involved.
+
+**Directories don't create themselves.** `sqlite3` can create the database *file*, but not a missing folder to put it in:
+
+```bash
+mkdir -p "$HOME/.config/todo-app"
+```
+
+`-p` means create the whole path and don't error if it's already there — necessary since this line runs on every single invocation of the script, not just the first.
 
 ---
 
