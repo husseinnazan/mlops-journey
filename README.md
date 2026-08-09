@@ -14,7 +14,7 @@ Learning log for my path to MLOps engineering.
 - [x] Python fundamentals — syntax, functions (`notebooks/python/`)
 - [x] SQL & relational databases (`notebooks/sql/`)
 - [x] Git & GitHub (`notebooks/git/`)
-- [ ] Bash (`notebooks/bash/`)
+- [x] Bash (First contact) (`notebooks/bash/`)
 - [ ] SQL window functions
 - [ ] OOP
 - [ ] Type hints
