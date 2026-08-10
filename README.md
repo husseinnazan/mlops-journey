@@ -16,17 +16,17 @@ Learning log for my path to MLOps engineering.
 - [x] Git & GitHub (`notebooks/git/`)
 - [x] Bash (`notebooks/bash/`)
 - [x] Python Part 2 — dicts/tuples/sets, file I/O, try/except, *args/**kwargs (`notebooks/python/`)
-- [ ] SQL window functions
 - [ ] OOP
-- [ ] Type hints
+- [ ] Type hints (+ `typing` module: `List`, `Dict`, `Optional`, `Union`, etc.)
 - [ ] Foundational DSA
 - [ ] Error handling (custom exceptions)
 - [ ] Context managers
-- [ ] Decorators
+- [ ] Decorators (+ closures)
 - [ ] JSON
-- [ ] HTTP requests
-- [ ] Unit testing
-- [ ] StudyMind — FastAPI + SQLite + LLM API (capstone)
+- [ ] HTTP requests (+ Wikipedia search script using `requests`)
+- [ ] asyncio & requests vs. aiohttp *(last standalone topic, right before FastAPI)*
+- [ ] FastAPI *(official tutorial — learned hands-on while building StudyMind below, not a separate pre-read)*
+- [ ] StudyMind — FastAPI + SQLite + LLM API *(capstone — final item, uses everything above)*
 
 ## Projects
 
@@ -42,3 +42,4 @@ Learning log for my path to MLOps engineering.
 - **2026-08-09** — First contact with Bash: script files, variables, positional arguments (`$1`), `if`/`else` with `-z`/`-d` tests, `for` loops over lists and globs, exit codes (`$?`, `&&`, `||`, `exit`), redirection (`>`, `>>`), and pipes (`|`). Added `notebooks/bash/bash-fundamentals.md`.
 - **2026-08-09** — Built a Bash Todo App from scratch: `case`-based command routing (`add`/`list`/`remove`), a SQLite table created via `sqlite3` calls from the script, and safe variable quoting (`'$2'` inside an `INSERT` vs bare `$2` in a numeric `WHERE`). Added `projects/bash-todo-app`.
 - **2026-08-10** — Python Part 2: dictionaries, tuples, sets, file I/O (`with open`, read/write/append modes), `try/except` (multiple excepts, `else`/`finally`, raising custom errors, `OSError` for file failures), and `*args`/`**kwargs`. Applied all four directly to the Student Grade Manager CLI — added `export_students_to_file()` and `log_action()` to `main.py`. Added `notebooks/python/python-part-2.md`.
+- **2026-08-10** — Roadmap update: tied closures explicitly into the Decorators topic (a decorator is a closure that returns a wrapped function), added a small Wikipedia-search script (using `requests`) as the practice project right after HTTP requests, marked Unit testing as optional if the 6-week window runs tight, and added `asyncio` + `requests` vs. `aiohttp` as a topic right before FastAPI, since FastAPI is async-first.
