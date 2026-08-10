@@ -17,7 +17,7 @@ Learning log for my path to MLOps engineering.
 - [x] Bash (`notebooks/bash/`)
 - [x] Python Part 2 — dicts/tuples/sets, file I/O, try/except, *args/**kwargs (`notebooks/python/`)
 - [x] OOP — classes, `__init__`, instance vs. class attributes (incl. attribute lookup/shadowing), inheritance (`super()`, overriding + extending a parent method). Composition deliberately scoped out — not needed for StudyMind. Applied to the `Car` example.
-- [ ] Type hints (+ `typing` module: `List`, `Dict`, `Optional`, `Union`, etc.) — **in progress**
+- [x] Type hints — annotations, function/parameter/return types, `List`/`Dict`/`Set`, custom types, `Any`, `Sequence`, `Tuple`, `Callable`, generics (Corey Schafer course), `mypy` static analysis, `Union`, and `Optional` corrected (means "can be X or None," not "argument is optional to pass" — that's controlled separately by a default value)
 - [ ] Decorators (+ closures)
 - [ ] Context managers
 - [ ] JSON
@@ -28,9 +28,16 @@ Learning log for my path to MLOps engineering.
 
 **Note:** Custom exception handling dropped as a dedicated Phase 1 topic — basic `try/except`/`OSError` handling is already covered (Python Part 2, Student Grade Manager). Foundational DSA (arrays, hash maps, linked lists, stacks/queues, trees, recursion) postponed out of Phase 1 entirely — moved to a bridge topic right before Phase 1.5's daily NeetCode/Grind75 grind starts, so it's learned right when it's needed instead of sitting unused.
 
+## Active task — applying Type Hints + OOP to Student Grade Manager
+
+Not yet done — in progress. Two things landing on the same project at once:
+
+- **Type hints:** add proper annotations to every function signature in `db.py` and `main.py`. `find_student` is the one that actually needs `Optional` for real (`Optional[tuple]` or `Optional[Student]` once the class exists below) — it genuinely returns `None` when nothing matches.
+- **OOP refactor:** convert `db.py`'s loose functions into a `StudentDB` class, and introduce a `Student` class so `main.py` stops reaching into raw tuple indices (`student[1]`, `student[2]`) and uses named attributes instead. Known pre-existing issue to fix along the way: the typo in the SQL schema (`mot null` instead of `not null`).
+
 ## Projects
 
-- [Student Grade Manager (CLI)](projects/student-grade-manager) — CLI app with SQLite persistence. First project (P1), originally in-memory, rebuilt with a real database. Extended with file export and activity logging while learning file I/O and error handling.
+- [Student Grade Manager (CLI)](projects/student-grade-manager) — CLI app with SQLite persistence. First project (P1), originally in-memory, rebuilt with a real database. Extended with file export and activity logging while learning file I/O and error handling. Currently being refactored to add type hints and an OOP data layer (`StudentDB`/`Student`).
 - [Bash Todo App (CLI)](projects/bash-todo-app) — `add` / `list` / `remove` todo list in pure Bash, backed by SQLite at `~/.config/todo-app/db.sqlite`. Built to learn `case` branching and calling `sqlite3` from a shell script.
 
 ## Log
@@ -45,3 +52,5 @@ Learning log for my path to MLOps engineering.
 - **2026-08-10** — Roadmap update: tied closures explicitly into the Decorators topic (a decorator is a closure that returns a wrapped function), added a small Wikipedia-search script (using `requests`) as the practice project right after HTTP requests, marked Unit testing as optional if the 6-week window runs tight, and added `asyncio` + `requests` vs. `aiohttp` as a topic right before FastAPI, since FastAPI is async-first.
 - **2026-08-10** — OOP, first pass: built a `Car` class (`__init__`, instance attributes, a class attribute `office_costs`) and self-assessed it against the roadmap. Found inheritance and composition were missing, plus the instance-vs-class attribute distinction was never actually tested. Taught: attribute lookup order (instance shadows class, never overwrites it), inheritance (`super().__init__()`, overriding + extending a parent method), and composition (has-a vs. is-a) via standalone `Animal`/`Dog` and `Engine`/`Vehicle` examples.
 - **2026-08-10** — Roadmap restructure: OOP scoped down to drop composition, keeping only inheritance — checked off. Foundational DSA pulled out of Phase 1 entirely, moved to a bridge topic immediately before Phase 1.5's daily grind starts, so it's taught right when needed rather than sitting unused for weeks. Custom exception handling dropped as a dedicated topic — basic `try/except`/`OSError` (already covered) is enough; StudyMind's retry decorator will catch standard exceptions instead of a custom hierarchy. New Phase 1 order: Git → Bash → OOP → Type hints → Decorators → Context managers → JSON → HTTP requests → asyncio → FastAPI → capstone. Starting Type hints today.
+- **2026-08-10** — Type hints, first pass (Tech With Tim video): annotations, function signatures, `mypy`, `List`/`Dict`/`Set`, custom types, `Optional`, `Any`, `Sequence`, `Tuple`, `Callable`, generics. Two gaps found on review: `Union` wasn't covered at all, and the video's explanation of `Optional` was actually wrong (presented it as "argument doesn't have to be passed," which several top comments and the official docs correct — `Optional[X]` means `Union[X, None]`, i.e. the value can be `None`, which is a completely separate concept from an argument having a default).
+- **2026-08-10** — Type hints, closed out (Corey Schafer course): confirmed Union and correct Optional were the only two gaps from the first pass. Union taught directly — `Union[X, Y]` means a fixed set of allowed types (not "any type," that's `Any`), with `X | Y` as the Python 3.10+ shorthand. Optional's real meaning locked in against `find_student`'s actual behavior (returns a tuple or `None`) as the concrete example. Type hints now checked off. Next: applying type hints + an OOP refactor (`StudentDB`/`Student` classes) to Student Grade Manager's `db.py`/`main.py`.
