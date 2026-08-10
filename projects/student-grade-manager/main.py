@@ -1,11 +1,15 @@
-import db
+from typing import Dict
+from db import StudentDB
 
-def export_students_to_file(filename="backup.txt"):
+db = StudentDB()
+
+
+def export_students_to_file(filename: str = "backup.txt") -> None:
     students = db.get_all_students()
 
-    student_dict = {}
+    student_dict: Dict[str, int] = {}
     for student in students:
-        student_dict[student[1]] = student[2]
+        student_dict[student.name] = student.score
 
     try:
         with open(filename, 'w') as w:
@@ -15,7 +19,7 @@ def export_students_to_file(filename="backup.txt"):
         print(f"Error was: {e}")
 
 
-def log_action(action, *details, **meta):
+def log_action(action: str, *details, **meta) -> None:
     try:
         with open("activity_log.txt", 'a') as wr:
             wr.write(f"ACTION: {action} | details: {details} | meta: {meta}\n")
@@ -43,7 +47,7 @@ while True:
 
     elif choice == 2:
         for i, student in enumerate(db.get_all_students()):
-            print(f"{i + 1}, {student[1]}, {student[2]}", "\n \n \n")
+            print(f"{i + 1}, {student.name}, {student.score}", "\n \n \n")
 
     elif choice == 3:
         lowest, highest, avg = db.get_stats()
@@ -56,14 +60,14 @@ while True:
         searched_name = input("What is his name ? ")
         student = db.find_student(searched_name)
         if student is not None:
-            print(f"There he is : {student[1]}, {student[2]}", "\n \n \n")
+            print(f"There he is : {student.name}, {student.score}", "\n \n \n")
         else:
             print("Did not find the guy sadly \n")
         log_action("search", searched_name)
 
     elif choice == 5:
         for student in db.get_passing_students():
-            print(f"{student[1]}, score: {student[2]}")
+            print(f"{student.name}, score: {student.score}")
 
     elif choice == 6:
         export_students_to_file()
