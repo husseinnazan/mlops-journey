@@ -8,7 +8,7 @@ def create_table():
         create table if not exists students (
             id integer primary key,
             name text not null,
-            score integer mot null
+            score integer not null
         )
     ''')
     conn.commit()
