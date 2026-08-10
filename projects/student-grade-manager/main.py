@@ -1,10 +1,33 @@
 import db
 
+def export_students_to_file(filename="backup.txt"):
+    students = db.get_all_students()
+
+    student_dict = {}
+    for student in students:
+        student_dict[student[1]] = student[2]
+
+    try:
+        with open(filename, 'w') as w:
+            for name, score in student_dict.items():
+                w.write(f"{name}: {score}\n")
+    except OSError as e:
+        print(f"Error was: {e}")
+
+
+def log_action(action, *details, **meta):
+    try:
+        with open("activity_log.txt", 'a') as wr:
+            wr.write(f"ACTION: {action} | details: {details} | meta: {meta}\n")
+    except OSError as e:
+        print(f"you have the following error : {e}")
+
+
 db.create_table()
 print("Hello student ! Select one of the folowing : \n")
 
 while True:
-    print("1. Add student\n2. View all students\n3. Class stats\n4. Search for a student\n5. View passing students only\n6. Quit\n")
+    print("1. Add student\n2. View all students\n3. Class stats\n4. Search for a student\n5. View passing students only\n6. Export to file\n7. Quit\n")
     try:
         choice = int(input("Choose an option : "))
     except ValueError:
@@ -16,18 +39,19 @@ while True:
         score = int(input("Please enter the student's score : "))
         db.add_student(name, score)
         print(f"Great, {name} was just added")
-        
+        log_action("add_student", name, score, source="menu")
+
     elif choice == 2:
         for i, student in enumerate(db.get_all_students()):
             print(f"{i + 1}, {student[1]}, {student[2]}", "\n \n \n")
-            
+
     elif choice == 3:
         lowest, highest, avg = db.get_stats()
         if avg is not None:
             print("Highest : ", highest, " ; lowest : ", lowest, " ; average : ", avg, '\n \n \n')
         else:
             print("No students yet :( \n")
-            
+
     elif choice == 4:
         searched_name = input("What is his name ? ")
         student = db.find_student(searched_name)
@@ -35,13 +59,18 @@ while True:
             print(f"There he is : {student[1]}, {student[2]}", "\n \n \n")
         else:
             print("Did not find the guy sadly \n")
-            
+        log_action("search", searched_name)
+
     elif choice == 5:
         for student in db.get_passing_students():
             print(f"{student[1]}, score: {student[2]}")
-            
+
     elif choice == 6:
+        export_students_to_file()
+        print("Exported to backup.txt")
+
+    elif choice == 7:
         break
-    
+
     else:
         print('invalid option')
