@@ -19,14 +19,6 @@ def export_students_to_file(filename: str = "backup.txt") -> None:
         print(f"Error was: {e}")
 
 
-def log_action(action: str, *details, **meta) -> None:
-    try:
-        with open("activity_log.txt", 'a') as wr:
-            wr.write(f"ACTION: {action} | details: {details} | meta: {meta}\n")
-    except OSError as e:
-        print(f"you have the following error : {e}")
-
-
 db.create_table()
 print("Hello student ! Select one of the folowing : \n")
 
@@ -43,7 +35,6 @@ while True:
         score = int(input("Please enter the student's score : "))
         db.add_student(name, score)
         print(f"Great, {name} was just added")
-        log_action("add_student", name, score, source="menu")
 
     elif choice == 2:
         for i, student in enumerate(db.get_all_students()):
@@ -63,7 +54,6 @@ while True:
             print(f"There he is : {student.name}, {student.score}", "\n \n \n")
         else:
             print("Did not find the guy sadly \n")
-        log_action("search", searched_name)
 
     elif choice == 5:
         for student in db.get_passing_students():
