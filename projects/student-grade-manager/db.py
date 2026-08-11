@@ -1,3 +1,5 @@
+import functools
+import time
 import sqlite3
 from typing import List, Optional, Tuple
 
@@ -7,6 +9,17 @@ class Student:
         self.id: int = id
         self.name: str = name
         self.score: int = score
+
+
+def timer(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"it took: {end - start} seconds")
+        return result
+    return wrapper
 
 
 class StudentDB:
@@ -31,7 +44,7 @@ class StudentDB:
             (name, score)
         )
         self.conn.commit()
-
+    @timer
     def get_all_students(self) -> List[Student]:
         self.cursor.execute('''select * from students''')
         rows = self.cursor.fetchall()
